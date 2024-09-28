@@ -1,30 +1,13 @@
-import { useRef, useState} from "react";
+import React from 'react'
+import Todo from '../Components/Todo'
 
-
-const App = () => {
-
-  const inputRef =useRef(null);
-  const [data,setData]=useState([]);
-
-
-
+function App() {
   return (
     <div>
-      <input ref={inputRef} type="text" />
-      <button onClick={()=>{
-        setData([...data,inputRef.current.value])
-        }}>Submit</button>
-        {data.map((item,index)=>{
-          return <h2 key={index}>{item}</h2>
-        })}
+      <Todo/>
     </div>
   )
 }
 
 export default App
-
-
-
-
-
 
