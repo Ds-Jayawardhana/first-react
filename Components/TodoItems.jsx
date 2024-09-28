@@ -5,45 +5,32 @@ import cross from "./Assets/cross.png"
 
 import React from 'react'
 
-
-const TodoItems =({no,display,text,setToDos})=> {
-
-
-    const deleteTodo = (no)=>{
-        let data =JSON.parse(localStorage.getItem("todos"));
-        data=data.filter((todo)=> todo.no!==no);
-        setToDos(data);
-    }
-    const toggle =(no)=>{
-        let data =JSON.parse(localStorage.getItem("todos"));
-        for(let i=0;i<data.length;i++)
-        {
-            if(data[i].no===no){
-                if(data[i].display===""){
-                    data[i].display="line-through";
-                }
-                else{
-                    data[i].display="";
-                }
-                break;
-            }
-        }
-        setToDos(data);
+const TodoItems = ({ no, display, text, setTodos }) => {
+    const deleteTodo = (no) => {
+        setTodos(prevTodos => prevTodos.filter(todo => todo.no !== no));
     }
 
-  return (
-    <div className="todoitems">
-        <div className={`todoitems-container ${display}`} onClick={()=>{toggle(no)}}>
-            {display===""?<img src={not_tick} alt="" />:
-                <img src={tick} alt="" />}
-            <div className="todoitems-text">
-                {text}
+    const toggle = (no) => {
+        setTodos(prevTodos => 
+            prevTodos.map(todo => 
+                todo.no === no 
+                    ? { ...todo, display: todo.display === "" ? "line-through" : "" } 
+                    : todo
+            )
+        );
+    }
+
+    return (
+        <div className="todoitems">
+            <div className={`todoitems-container ${display}`} onClick={() => toggle(no)}>
+                <img src={display === "" ? not_tick : tick} alt="" />
+                <div className="todoitems-text">
+                    {text}
+                </div>
             </div>
-            
+            <img className="todoitems-cross-icon" src={cross} alt="" onClick={() => deleteTodo(no)} />
         </div>
-        <img className="todoitems-cross-icon" src={cross} alt="" onclick={()=>{deleteTodo(no)}}/>
-    </div>
-  )
+    )
 }
 
 export default TodoItems
